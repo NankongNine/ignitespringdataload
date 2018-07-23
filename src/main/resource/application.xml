@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- 扫描Repository包 -->
+    <context:component-scan base-package="org.nankong"/>
+    <bean id="igniteClient" class="org.nankong.client.IgniteClient">
+        <property name="igniteConfiguration" ref="igniteConfig"/>
+    </bean>
+    <bean id="igniteConfig" class="org.apache.ignite.configuration.IgniteConfiguration">
+        <!-- 配置为客户端节点(必须，否则默认为server) -->
+        <property name="clientMode" value="true"/>
+        <!-- 配置客户端节点名称 -->
+        <property name="igniteInstanceName" value="igniteStart"/>
+        <!-- 客户端关闭metrics日志打印(value类型long 设置60*1000L即为1分钟刷新一次metrics日志，设置为0即关闭) -->
+        <!--<property name="metricsLogFrequency" value="0"/>-->
+        <!-- server重启时客户端自动重连(value时间内服务端若重启客户端会自动重连)-->
+        <property name="networkTimeout" value="1000000"/>
+        <!-- 配置内存数据网格 -->
+        <property name="cacheConfiguration">
+            <list>
+                <ref bean="custCache"/>
+            </list>
+        </property>
+        <!-- 配置集群ip(静态) -->
+        <property name="discoverySpi" ref="discoverySpi"/>
+    </bean>
+    <bean id="custCache" class="org.apache.ignite.configuration.CacheConfiguration">
+        <!-- 数据网格名称，Repository注解使用 -->
+        <property name="name" value="custCache"/>
+        <!-- 缓存模式可以是PARTITIONED(分片)REPLICATED(主从复制)等 -->
+        <property name="cacheMode" value="PARTITIONED"/>
+        <!-- 使用Ignite数据网格必须设置indexedTypes -->
+        <property name="indexedTypes">
+            <list>
+                <value>java.lang.String</value>
+                <value>org.nankong.data.model.Customer</value>
+                <value>java.lang.String</value>
+                <value>org.nankong.data.model.OrgInfo</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="discoverySpi" class="org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi">
+        <property name="ipFinder">
+            <bean class="org.apache.ignite.spi.discovery.tcp.ipfinder.vm.TcpDiscoveryVmIpFinder">
+                <property name="addresses">
+                    <list>
+                        <value>127.0.0.1:47500..47509</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+</beans>
