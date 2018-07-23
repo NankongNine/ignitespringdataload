@@ -16,7 +16,7 @@ public class Customer implements Serializable {
     private int isValid;
     private String custNation;
     private float custAum;
-    @QuerySqlField
+    @QuerySqlField(index = true)
     private String custInsId;
 
     public String getCustId() {
