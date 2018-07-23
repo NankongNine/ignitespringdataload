@@ -9,7 +9,6 @@ public class Customer implements Serializable {
     private String custId;
     @QuerySqlField(index = true)
     private String custName;
-    @QuerySqlField
     private String custBirthday;
     private int custSex;
     private String custCardId;
