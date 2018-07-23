@@ -7,7 +7,7 @@ import java.io.Serializable;
 public class OrgInfo implements Serializable {
     @QuerySqlField
     private String orgName;
-    @QuerySqlField
+    @QuerySqlField(index = true)
     private String orgCode;
     private String orgAddress;
     private String orgOpenDate;
