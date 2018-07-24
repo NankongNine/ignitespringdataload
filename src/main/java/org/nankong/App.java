@@ -1,6 +1,5 @@
 package org.nankong;
 
-import org.apache.lucene.analysis.ckb.SoraniStemFilter;
 import org.nankong.client.IgniteClient;
 import org.nankong.data.model.Customer;
 import org.nankong.data.model.OrgInfo;
@@ -8,10 +7,11 @@ import org.nankong.data.repository.CustRepository;
 import org.nankong.data.repository.OrgInfoRepository;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Hello world!
@@ -48,11 +48,14 @@ public class App
 //            Customer customer = repo.getCustomerByCustId("0000999998");
 //            Customer customer = repo.getCustomerByNameSQL("南宫九");
 //            Customer customer = repo.getCustomerBySQL("0000999998");
-            List<Customer> customerList2 = repo.getCustomersBySQL("344368061");
-            System.out.println("查询了"+customerList2.size());
-            Customer customer = customerList2.get(0);
+            Pageable pageable = new PageRequest(0,8);
+            List<Customer> customerList2 = repo.getCustomersBySQL("344368061",pageable);
+//            System.out.println("查询了"+customerList2.getTotalElements()+"条数据");
+
+//            Customer customer = customerList2.get(0);
             long endTime=System.currentTimeMillis(); //获取结束时间
-            System.out.println(customer.toP9String()+"\n查询耗时："+(endTime-startTime)+"ms");
+            System.out.println("查询耗时："+(endTime-startTime)+"ms");
+            customerList2.forEach(x->System.out.println(x.toP9String()));
             OrgInfo orgInfo = orgRepo.queryAllByOrgCode("344368061");
             System.out.println(orgInfo.toP9String());
 
