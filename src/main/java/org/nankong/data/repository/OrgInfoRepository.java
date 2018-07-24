@@ -1,7 +1,6 @@
 package org.nankong.data.repository;
 
 import org.apache.ignite.springdata.repository.IgniteRepository;
-import org.apache.ignite.springdata.repository.config.Query;
 import org.apache.ignite.springdata.repository.config.RepositoryConfig;
 import org.nankong.data.model.OrgInfo;
 
