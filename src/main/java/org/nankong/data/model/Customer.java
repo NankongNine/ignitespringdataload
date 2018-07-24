@@ -9,14 +9,13 @@ public class Customer implements Serializable {
     private String custId;
     @QuerySqlField(index = true)
     private String custName;
-    @QuerySqlField
     private String custBirthday;
     private int custSex;
     private String custCardId;
     private int isValid;
     private String custNation;
     private float custAum;
-    @QuerySqlField
+    @QuerySqlField(index = true)
     private String custInsId;
 
     public String getCustId() {
