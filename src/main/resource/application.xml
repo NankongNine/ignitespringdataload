@@ -24,6 +24,7 @@
         <property name="cacheConfiguration">
             <list>
                 <ref bean="custCache"/>
+                <ref bean="orgCache"/>
             </list>
         </property>
         <!-- 配置集群ip(静态) -->
@@ -39,6 +40,17 @@
             <list>
                 <value>java.lang.String</value>
                 <value>org.nankong.data.model.Customer</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="orgCache" class="org.apache.ignite.configuration.CacheConfiguration">
+        <!-- 数据网格名称，Repository注解使用 -->
+        <property name="name" value="orgCache"/>
+        <!-- 缓存模式可以是PARTITIONED(分片)REPLICATED(主从复制)等 -->
+        <property name="cacheMode" value="REPLICATED"/>
+        <!-- 使用Ignite数据网格必须设置indexedTypes -->
+        <property name="indexedTypes">
+            <list>
                 <value>java.lang.String</value>
                 <value>org.nankong.data.model.OrgInfo</value>
             </list>
