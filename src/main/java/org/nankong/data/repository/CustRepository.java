@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Map;
+
 @RepositoryConfig(cacheName="custCache")
 public interface CustRepository extends IgniteRepository<Customer,String> {
     List<Customer> getCustomersByCustName(String custName);
@@ -24,6 +26,10 @@ public interface CustRepository extends IgniteRepository<Customer,String> {
     Page<Customer> getPagedCustomersBySQL(String ordCode, Pageable pageable);
     @Query("SELECT a.* FROM Customer a,OrgInfo b WHERE a.custInsId = b.orgCode and b.orgCode =? order by custName")
     List<Customer> getCustomersBySQL(String ordCode, Pageable pageable);
-
-
+    @Query("SELECT a.* FROM Customer a,\"orgCache\".OrgInfo b WHERE a.custInsId = b.orgCode and b.orgCode =? order by custName")
+    List<Customer> getCustomersBySQL(String ordCode);
+    @Query( "SELECT a.custName as custName ,a.custId as custId FROM Customer a WHERE custName = ?")
+    List<Object> getBySQL(String custName);
+    @Query( "SELECT a.custName as custName ,a.custId as custId FROM Customer a WHERE custName = ?")
+    Map<String,Object> getMapBySQL(String custName);
 }
