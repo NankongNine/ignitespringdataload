@@ -11,7 +11,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Hello world!
@@ -48,17 +50,24 @@ public class App
 //            Customer customer = repo.getCustomerByCustId("0000999998");
 //            Customer customer = repo.getCustomerByNameSQL("南宫九");
 //            Customer customer = repo.getCustomerBySQL("0000999998");
-            Pageable pageable = new PageRequest(0,8);
-            List<Customer> customerList2 = repo.getCustomersBySQL("344368061",pageable);
+//            Pageable pageable = new PageRequest(0,8);
+//            List<Customer> customerList2 = repo.getCustomersBySQL("344368061",pageable);
+            List<Customer> customerList2 = repo.getCustomersBySQL("344368061");
 //            System.out.println("查询了"+customerList2.getTotalElements()+"条数据");
+            System.out.println("查询了"+customerList2.size()+"条数据");
 
 //            Customer customer = customerList2.get(0);
             long endTime=System.currentTimeMillis(); //获取结束时间
             System.out.println("查询耗时："+(endTime-startTime)+"ms");
-            customerList2.forEach(x->System.out.println(x.toP9String()));
+//            customerList2.forEach(x->System.out.println(x.toP9String()));
             OrgInfo orgInfo = orgRepo.queryAllByOrgCode("344368061");
             System.out.println(orgInfo.toP9String());
-
+            List<Object> resultList = repo.getBySQL("awfosaydey");
+            List objList = (ArrayList)resultList.get(0);
+            System.out.println(objList.get(0));
+            resultList.forEach(x->System.out.println(x.toString()));
+//            List<Map<String,Object>> ll = repo.getMapBySQL("awfosaydey");
+            Map map = repo.getMapBySQL("awfosaydey");
         }
 
         finally {
@@ -69,4 +78,6 @@ public class App
     private static void initData(){
 
     }
+
+
 }
