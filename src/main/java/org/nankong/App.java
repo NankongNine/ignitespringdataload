@@ -67,7 +67,7 @@ public class App
             System.out.println(objList.get(0));
             resultList.forEach(x->System.out.println(x.toString()));
 //            List<Map<String,Object>> ll = repo.getMapBySQL("awfosaydey");
-            Map map = repo.getMapBySQL("awfosaydey");
+//            Map map = repo.getMapBySQL("awfosaydey");
         }
 
         finally {
