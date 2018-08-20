@@ -7,6 +7,7 @@ import org.apache.ignite.springdata.repository.config.EnableIgniteRepositories;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.PreDestroy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,10 @@ public class IgniteClient {
         //ignite的destroy方法必须传入数据网格名称作为参数
 //        List<String> caches = new ArrayList<>();
 //        caches.add("custCache");
+//        caches.add("orgCache");
+//
 //        ignite.destroyCaches(caches);
+        System.out.println("断开连接！");
         ignite.close();
     }
 }
