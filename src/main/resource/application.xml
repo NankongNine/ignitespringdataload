@@ -35,6 +35,8 @@
         <property name="name" value="custCache"/>
         <!-- 缓存模式可以是PARTITIONED(分片)REPLICATED(主从复制)等 -->
         <property name="cacheMode" value="PARTITIONED"/>
+        <!-- 开启事务 -->
+        <property name="atomicityMode" value="TRANSACTIONAL"/>
         <!-- 使用Ignite数据网格必须设置indexedTypes -->
         <property name="indexedTypes">
             <list>

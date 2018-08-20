@@ -11,7 +11,7 @@ public class CreateData {
     public static void main(String args[]){
         initOrgList();
         StringBuffer strBuf = new StringBuffer();
-        for(int i = 1 ;i<=1000000;i++){
+        for(int i = 1 ;i<=3000000;i++){
             Customer cust = genCustomer(String.format("%010d",i));
             strBuf.append(cust.toP9String());
             strBuf.append("\n");
