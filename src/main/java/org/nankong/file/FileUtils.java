@@ -63,8 +63,6 @@ public class FileUtils {
                 rBuffer.get(bs);
                 rBuffer.clear();
                 String tempString = new String(bs, 0, rSize);
-                //System.out.print(tempString);
-                //System.out.print("<200>");
 
                 int fromIndex = 0;
                 int endIndex = 0;
@@ -87,8 +85,13 @@ public class FileUtils {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        finally {
+            fcin.close();
+            rBuffer.clear();
+        }
         return contentLsit;
     }
+
     public static void main(String args[]) throws IOException {
         List<String> list = fileReader("/home/nankong/works/ignite/cust.dat");
         System.out.println(list.size());
