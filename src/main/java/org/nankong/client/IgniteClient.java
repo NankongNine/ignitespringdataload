@@ -29,6 +29,12 @@ public class IgniteClient {
         ignite = Ignition.start(igniteConfiguration);
         return ignite;
     }
+    public void initial(){
+        List<String> caches = new ArrayList<>();
+        caches.add("custCache");
+        caches.add("orgCache");
+        ignite.destroyCaches(caches);
+    }
     public void destroy() {
         //ignite的destroy方法必须传入数据网格名称作为参数
 //        List<String> caches = new ArrayList<>();

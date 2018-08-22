@@ -1,5 +1,7 @@
 package org.nankong;
 
+import org.apache.ignite.Ignite;
+import org.apache.ignite.IgniteDataStreamer;
 import org.nankong.client.IgniteClient;
 import org.nankong.data.model.OrgInfo;
 import org.nankong.data.repository.OrgInfoRepository;
@@ -17,6 +19,8 @@ public class LoadOrgData {
         BeanFactory factory = new ClassPathXmlApplicationContext("application.xml");
         orgRepo = factory.getBean(OrgInfoRepository.class);
         IgniteClient client = factory.getBean("igniteClient",IgniteClient.class);
+        Ignite ignite = client.igniteInstance();
+        IgniteDataStreamer<String,OrgInfo> streamer = ignite.dataStreamer("orgCache");
         try{
             initOrgData();
         }
