@@ -12,6 +12,7 @@ import org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi;
 import org.apache.ignite.spi.discovery.tcp.ipfinder.vm.TcpDiscoveryVmIpFinder;
 import org.nankong.client.IgniteClient;
 import org.nankong.data.model.Customer;
+import org.nankong.data.model.OrgInfo;
 import org.nankong.file.FileUtils;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -20,20 +21,17 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class LoadCustDataNew {
+public class LoadOrgDataNew {
     public static void main(String args[]){
 
 
-
-        //Failed to connect to any address from IP finder
         BeanFactory factory = new ClassPathXmlApplicationContext("application.xml");
         IgniteClient client = factory.getBean("igniteClient",IgniteClient.class);
 //        final Ignite ignite = getIgnite();
         final Ignite ignite = client.igniteInstance();
-        final IgniteDataStreamer streamer = ignite.dataStreamer("custCache");
+        final IgniteDataStreamer streamer = ignite.dataStreamer("orgCache");
         try {
-//            initialData("/home/nankong/works/ignite/cust.dat",cache);
-            initialDataNew("f:/cust.dat",streamer);
+            initialDataNew("f:/org.dat",streamer);
         }
         finally {
             streamer.close();
@@ -41,24 +39,12 @@ public class LoadCustDataNew {
 
         }
     }
-    private static Ignite getIgnite() {
-        TcpDiscoverySpi spi = new TcpDiscoverySpi();
-        TcpDiscoveryVmIpFinder ipFinder = new TcpDiscoveryVmIpFinder();
-        ipFinder.setAddresses(Arrays.asList("127.0.0.1:47500..47509"));
-        spi.setIpFinder(ipFinder);
-        IgniteConfiguration cfg = new IgniteConfiguration();
-        cfg.setDiscoverySpi(spi);
-        cfg.setClientMode(true);
-
-        Ignite ignite = Ignition.getOrStart(cfg);
-        return ignite;
-    }
-    private static void initialDataNew(String filePath,IgniteDataStreamer<String,Customer> streamer){
+    private static void initialDataNew(String filePath,IgniteDataStreamer<String,OrgInfo> streamer){
         try {
             List<String> list = FileUtils.fileReader(filePath);
             for(int i=0;i<list.size();i++){
-                Customer cust = new Customer(list.get(i));
-                streamer.addData(cust.getCustId(),cust);
+                OrgInfo orgInfo = new OrgInfo(list.get(i));
+                streamer.addData(orgInfo.getOrgCode(),orgInfo);
             }
         } catch (IOException e) {
             e.printStackTrace();
