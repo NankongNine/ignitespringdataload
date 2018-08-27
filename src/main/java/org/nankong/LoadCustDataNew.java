@@ -35,7 +35,7 @@ public class LoadCustDataNew {
             final IgniteCache<String, Customer> cache = ignite.getOrCreateCache(cacheCfg);
             final IgniteDataStreamer streamer = ignite.dataStreamer("custCache");
 //            initialData("/home/nankong/works/ignite/cust.dat",cache);
-            initialDataNew("/home/nankong/works/ignite/cust.dat",streamer);
+            initialDataNew("f:/cust.dat",streamer);
             streamer.close();
             Customer cust  = new Customer("0000000010|@|hqokhvbogo|@|2009-03-13|@|1|@|7994357478006225|@|0|@|CN000|@|0.5274209|@|139955173|@|\n");
             cache.put(cust.getCustId(),cust);
@@ -60,7 +60,7 @@ public class LoadCustDataNew {
     }
     private static void initialData(String filePath,IgniteCache<String,Customer> cache){
         try {
-            List<String> list = FileUtils.fileReader("/home/nankong/works/ignite/cust.dat");
+            List<String> list = FileUtils.fileReader(filePath);
             for(int i=0;i<list.size();i++){
                 putCustByKey(list.get(i),cache);
                 if((i+1)%300000==0){
@@ -78,7 +78,7 @@ public class LoadCustDataNew {
     }
     private static void initialDataNew(String filePath,IgniteDataStreamer<String,Customer> streamer){
         try {
-            List<String> list = FileUtils.fileReader("/home/nankong/works/ignite/cust.dat");
+            List<String> list = FileUtils.fileReader(filePath);
             for(int i=0;i<list.size();i++){
                 Customer cust = new Customer(list.get(i));
                 streamer.addData(cust.getCustId(),cust);
