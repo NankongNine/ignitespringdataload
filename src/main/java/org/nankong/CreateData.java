@@ -8,22 +8,31 @@ import java.util.*;
 
 public class CreateData {
     private static List<String> orgCodeList = new ArrayList<String>();
+//    public static final String CUST_FILE_PATH = "E:/cust.dat";
+//    public static final String CUST_FILE_PATH = "/home/nankong/works/ignite/cust.dat";
+//    public static final String ORG_FILE_PATH = "E:/org.dat";
+//    public static final String ORG_FILE_PATH = "/home/nankong/works/ignite/org.dat";
+
     public static void main(String args[]){
-        initOrgList();
+        String custFilePath = args[0];
+        int custFileCount=Integer.parseInt(args[1]);
+        String orgFilePath = args[2];
+        int orgFileCount=Integer.parseInt(args[3]);
+        initOrgList(orgFilePath,orgFileCount);
         StringBuffer strBuf = new StringBuffer();
-        for(int i = 1 ;i<=3000000;i++){
+        for(int i = 1 ;i<=custFileCount;i++){
             Customer cust = genCustomer(String.format("%010d",i));
             strBuf.append(cust.toP9String());
             strBuf.append("\n");
         }
-        FileUtils.fileWriter(strBuf.toString(),"/home/nankong/works/ignite/cust.dat");
+        FileUtils.fileWriter(strBuf.toString(),custFilePath);
 
     }
 
-    private static void initOrgList() {
+    private static void initOrgList(String filePath,int fileCount) {
         Set<String> orgSet = new HashSet<String>();
         StringBuffer strBuf = new StringBuffer();
-        for(int i = 0;i<60000;i++){
+        for(int i = 0;i<fileCount;i++){
             String orgCode = getRandomIntString(9);
             if(orgSet.contains(orgCode))
                 continue;
@@ -33,7 +42,7 @@ public class CreateData {
             strBuf.append(orgInfo.toP9String());
             strBuf.append("\n");
         }
-        FileUtils.fileWriter(strBuf.toString(),"/home/nankong/works/ignite/org.dat");
+        FileUtils.fileWriter(strBuf.toString(),filePath);
         System.out.println("初始化机构共"+orgCodeList.size()+"条");
     }
 
